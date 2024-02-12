@@ -1,0 +1,14 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Zeiterfassung</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-text-center ion-padding">
+  <div class="timer-container">
+    <p>{{ timerDisplay }}</p>
+  </div>
+  <ion-button color="{{ isCheckingIn ? 'danger' : 'success' }}" (click)="toggleCheckIn()" class="check-in-button">
+    {{ isCheckingIn ? 'Auschecken' : 'Einchecken' }}
+  </ion-button>
+</ion-content>

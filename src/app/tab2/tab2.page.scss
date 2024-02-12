@@ -1,0 +1,35 @@
+ion-header {
+  ion-toolbar {
+    --background: transparent; 
+    justify-content: center; 
+    ion-title {
+      text-align: center; 
+      color: white; 
+      font-family: 'Arapey', serif; 
+      font-size: 1.5em; 
+    }
+  }
+}
+
+ion-content {
+  --background: black;
+}
+
+.timer-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+  color: white;
+  /* Hier deine Animationen hinzufügen */
+}
+
+.check-in-button {
+  position: absolute;
+  top: 85%; /* Abstand von der Oberseite, abhängig von der Höhe deiner App-Bar */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+
+

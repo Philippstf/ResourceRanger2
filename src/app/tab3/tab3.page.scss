@@ -1,0 +1,28 @@
+ion-header {
+  ion-toolbar {
+    --background: transparent; 
+    justify-content: center; 
+    ion-title {
+      text-align: center; 
+      color: white; 
+      font-family: 'Arapey', serif; 
+      font-size: 1.5em; 
+    }
+  }
+}
+
+ion-title {
+  text-align: center;
+  color: white; 
+  font-family: 'Arapey', serif;
+  font-size: 1.5em;
+}
+
+ion-content {
+  --background: black; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Arapey', serif;
+}
