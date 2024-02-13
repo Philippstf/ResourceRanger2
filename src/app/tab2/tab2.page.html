@@ -8,7 +8,13 @@
   <div class="timer-container">
     <p>{{ timerDisplay }}</p>
   </div>
-  <ion-button color="{{ isCheckingIn ? 'danger' : 'success' }}" (click)="toggleCheckIn()" class="check-in-button">
-    {{ isCheckingIn ? 'Auschecken' : 'Einchecken' }}
-  </ion-button>
+  <div class="button-container">
+    <ion-button color="{{ isCheckingIn ? 'danger' : 'success' }}" (click)="toggleCheckIn()" class="check-in-button">
+      {{ isCheckingIn ? 'Auschecken' : 'Einchecken' }}
+    </ion-button>
+    <ion-button color="secondary" (click)="showTimes()" class="show-times-button">
+      <ion-icon name="time-outline"></ion-icon>
+    </ion-button>
+    <ion-button (click)="presentManualTimeEntryModal()">Zeit Manuell erfassen</ion-button>
+  </div>
 </ion-content>

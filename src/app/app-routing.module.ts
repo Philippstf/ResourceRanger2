@@ -26,7 +26,16 @@ const routes: Routes = [
   {
     path: 'createaccount',
     loadChildren: () => import('./createaccount/createaccount.module').then( m => m.CreateAccountPageModule)
-  }
+  },
+  {
+    path: 'time-tracker',
+    loadChildren: () => import('./time-tracker/time-tracker.module').then( m => m.TimeTrackerPageModule)
+  },
+  {
+    path: 'time-tracker',
+    loadChildren: () => import('./time-tracker/time-tracker.module').then( m => m.TimeTrackerPageModule)
+  },
+
 
 
 ];

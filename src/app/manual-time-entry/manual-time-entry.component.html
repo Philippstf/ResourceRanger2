@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Zeit manuell Eingeben</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item>
+    <ion-label position="stacked">Datum (DD.MM.YYYY)</ion-label>
+    <ion-input type="text" inputmode="numeric" pattern="\d{2}.\d{2}.\d{4}" [(ngModel)]="entryData.date"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Startzeit (HH:MM)</ion-label>
+    <ion-input type="text" inputmode="numeric" pattern="\d{2}:\d{2}" [(ngModel)]="entryData.start"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Ende (HH:MM)</ion-label>
+    <ion-input type="text" inputmode="numeric" pattern="\d{2}:\d{2}" [(ngModel)]="entryData.end"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Pause (in Minuten)</ion-label>
+    <ion-input type="number" [(ngModel)]="entryData.pause"></ion-input>
+  </ion-item>
+  <ion-button expand="full" (click)="confirmEntry()">Bestätigen</ion-button>
+</ion-content>

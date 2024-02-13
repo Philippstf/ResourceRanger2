@@ -1,10 +1,23 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ManualTimeEntryComponent } from '../manual-time-entry/manual-time-entry.component';
+import { ModalController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
+
+interface ManualEntryData {
+  date: string;
+  start: string;
+  end: string;
+  pause: number;
+}
 
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss']
 })
+
+
 export class Tab2Page implements OnInit {
   isCheckingIn: boolean = false;
   timer: number = 0; // Timer als Anzahl der Sekunden
@@ -14,7 +27,14 @@ export class Tab2Page implements OnInit {
   endTime: Date | null = null; // Deklariere endTime
   workSessions: any[] = [];
 
-  constructor() {}
+
+
+  constructor(
+    private router: Router,
+    private modalController: ModalController,
+    private alertController: AlertController
+    
+    ) {}
 
   ngOnInit() {}
 
@@ -55,30 +75,75 @@ export class Tab2Page implements OnInit {
     const endTime = this.endTime?.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
     const workTime = this.timerDisplay;
   
-    // Neue Arbeitssitzung hinzufügen
-    this.workSessions.push({
+    const session = {
       Datum: currentDate,
       Startzeit: startTime,
       Endzeit: endTime,
       Arbeitszeit: workTime
+    };
+  
+    // Vorhandene Arbeitssitzungen aus dem localStorage laden
+    let workSessions = JSON.parse(localStorage.getItem('timetracker') || '[]');
+    
+    // Neue Arbeitssitzung hinzufügen
+    workSessions.push(session);
+  
+    // Aktualisierte Arbeitssitzungen im localStorage speichern
+    localStorage.setItem('timetracker', JSON.stringify(workSessions));
+  }
+
+  showTimes() {
+    this.router.navigateByUrl('/time-tracker');
+  }
+
+  async presentManualTimeEntryModal() {
+    const modal = await this.modalController.create({
+      component: ManualTimeEntryComponent,
     });
-  
-    // Arbeitssitzungen als JSON speichern
-    this.exportToJsonFile(this.workSessions);
+    await modal.present();
+    
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      this.addManualTimeEntry(data);
+    }
   }
   
-  exportToJsonFile(jsonData: any) {
-    const jsonString = JSON.stringify(jsonData);
-    const blob = new Blob([jsonString], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-  
-    // Erstelle einen Link zum Herunterladen der JSON-Datei
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'timetracker.json';
-    link.click();
-  
-    // URL freigeben
-    URL.revokeObjectURL(url);
+  addManualTimeEntry(entryData: ManualEntryData) {
+    // Berechne Arbeitszeit abzüglich der Pause
+    let workTime = this.calculateWorkTime(entryData.start, entryData.end, entryData.pause);
+    let newSession = {
+      Datum: entryData.date,
+      Startzeit: entryData.start,
+      Endzeit: entryData.end,
+      Arbeitszeit: workTime,
+      Pause: entryData.pause
+    };
+    // Hinzufügen zur Liste und Speichern im localStorage
+    this.workSessions.push(newSession);
+    localStorage.setItem('timetracker', JSON.stringify(this.workSessions));
   }
+
+  calculateWorkTime(start: string, end: string, pause: number): string {
+    // Annahme: start und end sind im Format HH:mm
+    const [startHours, startMinutes] = start.split(':').map(Number);
+    const [endHours, endMinutes] = end.split(':').map(Number);
+  
+    const startDate = new Date();
+    startDate.setHours(startHours, startMinutes, 0, 0);
+  
+    const endDate = new Date();
+    endDate.setHours(endHours, endMinutes, 0, 0);
+  
+    // Berechne die Differenz in Minuten
+    let difference = (endDate.getTime() - startDate.getTime()) / (1000 * 60);
+    difference -= pause; // Ziehe die Pause ab
+  
+    // Konvertiere die Minuten zurück in Stunden und Minuten
+    const hours = Math.floor(difference / 60);
+    const minutes = Math.floor(difference % 60);
+  
+    return `${this.pad(hours)}:${this.pad(minutes)}`;
+  }
+  
+  
 }

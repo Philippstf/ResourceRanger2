@@ -10,11 +10,14 @@ import { environment } from '../environments/environment';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
-
+import { ManualTimeEntryComponent } from './manual-time-entry/manual-time-entry.component';
 
 // NgModule decorator to define the metadata for the AppModule
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent,
+    ManualTimeEntryComponent
+  ],
   imports: [
     BrowserModule, 
     IonicModule.forRoot(), 

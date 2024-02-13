@@ -31,5 +31,16 @@ ion-content {
   transform: translateX(-50%);
 }
 
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px; /* Abstand zwischen den Buttons */
+}
+
+.show-times-button {
+  --border-radius: 50%; /* Macht den Button rund */
+}
+
 
 

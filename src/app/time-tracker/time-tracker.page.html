@@ -1,0 +1,27 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" text="" icon="arrow-back" style="--color: #555;"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Getrackte Zeiten</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <table class="time-entries-table">
+    <tr>
+      <th>Datum</th>
+      <th>Startzeit</th>
+      <th>Endzeit</th>
+      <th>Pause</th>
+      <th>Arbeitszeit</th>
+    </tr>
+    <tr *ngFor="let session of workSessions">
+      <td>{{ session.Datum }}</td>
+      <td>{{ session.Startzeit }}</td>
+      <td>{{ session.Endzeit }}</td>
+      <td>{{ session.Pause || '0' }} Minuten</td>
+      <td>{{ session.Arbeitszeit }} Stunden</td>
+    </tr>
+  </table>
+</ion-content>
