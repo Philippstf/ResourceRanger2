@@ -10,6 +10,16 @@
       <p>Bitte gib deine Daten ein, um einen neuen Account zu erstellen.</p>
     </div>
     <ion-item lines="full">
+      <ion-label position="stacked">Vorname</ion-label>
+      <ion-input placeholder="Vorname" [(ngModel)]="firstName" type="text" name="firstName" required aria-label="Vorname"></ion-input>
+      <ion-icon name="person-outline" slot="end"></ion-icon>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="stacked">Nachname</ion-label>
+      <ion-input placeholder="Nachname" [(ngModel)]="lastName" type="text" name="lastName" required aria-label="Nachname"></ion-input>
+      <ion-icon name="person-outline" slot="end"></ion-icon>
+    </ion-item>
+    <ion-item lines="full">
       <ion-label position="stacked">E-Mail</ion-label>
       <ion-input placeholder="E-Mail" [(ngModel)]="email" type="email" name="email" required aria-label="E-Mail"></ion-input>
       <ion-icon name="person-outline" slot="end"></ion-icon>
@@ -23,5 +33,3 @@
     <ion-button expand="block" fill="clear" class="cancel-button" (click)="navigateToLogin()">Abbrechen</ion-button>
   </div>
 </ion-content>
-
- 

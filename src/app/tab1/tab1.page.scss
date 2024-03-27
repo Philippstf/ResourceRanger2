@@ -52,3 +52,36 @@ ion-content p {
     margin-right: 8px; 
   }
 }
+
+/* tab1.page.scss */
+
+/* tab1.page.scss */
+
+.profile-container {
+  width: 150px; /* Dies sollte die Größe des Rahmens sein */
+  height: 150px; /* Dies sollte die Höhe des Rahmens sein */
+  border-radius: 50%; /* Dies macht den Rahmen rund */
+  overflow: hidden; /* Verhindert, dass der Inhalt außerhalb des Rahmens angezeigt wird */
+  position: relative; /* Ermöglicht die genaue Positionierung des Bildes innerhalb */
+  border: 2px solid white; /* Dünner weißer Rahmen */
+  box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.5); /* Heller Schatten */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto; /* Zentriert den Rahmen horizontal */
+}
+
+.profile-picture {
+  width: 100%; /* Füllt den umschließenden Container aus */
+  height: auto; /* Behält die Aspekt-Ratio des Bildes bei */
+  object-fit: cover; /* Verhindert Verzerrungen des Bildes */
+  border: none; /* Kein Rahmen um das Bild selbst */
+}
+
+
+/* Optional: Stil für den Header, um sicherzustellen, dass der Inhalt darunter beginnt */
+ion-header {
+  position: relative; /* Setzt die Positionierung des Headers relativ */
+  z-index: 1000; /* Stellt sicher, dass der Header über anderen Inhalten liegt */
+}
+

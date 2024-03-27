@@ -13,14 +13,14 @@ ion-header {
   }
   
   
-  ion-content {
-    --background: #212429
-  }
+ion-content {
+  --background: #212429
+}
 
-  ion-list {
-    --background: black
-  }
+ion-item {
+  --background: #212429 !important;
+}
 
-  ion-item {
-    --color: black
-  }
+
+
+

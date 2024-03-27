@@ -5,13 +5,19 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
-  <div>
-    <p>Resource Ranger!</p>
+  <!-- Profilbild und Name -->
+  <div class="profile-info">
+    <div class="profile-container">
+    <ion-img class="profile-picture" [src]="profileImageUrl" (click)="editProfilePicture()" [ngStyle]="{ 'border-radius': profileImageUrl ? '50%' : '0' }"></ion-img>
   </div>
-  <div class="account-form">
+    <ion-text class="full-name">{{ fullName }}</ion-text>
+    <ion-button expand="block" class="edit-profile-button" (click)="editProfile()">Profil bearbeiten</ion-button>
+  </div>
 
+
+  <div class="account-form">
     <ion-text>
-      <p>Möchstest du deinen Account löschen?</p>
+      <p>Möchtest du deinen Account löschen?</p>
     </ion-text>
     <form (submit)="deleteAccount()">
       <ion-button expand="block" class="ion-margin-top delete-button" (click)="deleteAccount()">
@@ -19,7 +25,7 @@
       </ion-button>
     </form>
     <ion-text>
-      <p>Möchstest du dich Ausloggen?</p>
+      <p>Möchtest du dich Ausloggen?</p>
     </ion-text>
     <form (submit)="logOut()">
       <ion-button expand="block" type="submit" class="ion-margin-top logout-button">Logout</ion-button>

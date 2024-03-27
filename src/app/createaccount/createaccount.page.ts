@@ -4,12 +4,20 @@ import { AuthService } from '../services/auth.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AuthError } from 'firebase/auth';
 
+interface UserData {
+  firstName: string;
+  lastName: string;
+  email: string;
+}
+
 @Component({
   selector: 'app-createaccount',
   templateUrl: './createaccount.page.html',
   styleUrls: ['./createaccount.page.scss'],
 })
 export class CreateAccountPage {
+  firstName: string = '';
+  lastName: string = '';
   email: string = '';
   password: string = '';
 
@@ -28,9 +36,14 @@ export class CreateAccountPage {
     if (this.isValidEmail(this.email)) {
       this.authService.signUp(this.email, this.password)
         .then((res) => {
-          if (res.user && res.user.uid) { // Überprüfen, ob res.user und res.user.uid vorhanden sind
+          if (res.user && res.user.uid) {
             console.log('Erfolgreich registriert!', res);
-            this.saveUserData(res.user.uid, this.email); // Übergebe UID und E-Mail an saveUserData
+            const userData: UserData = {
+              firstName: this.firstName,
+              lastName: this.lastName,
+              email: this.email
+            };
+            this.saveUserData(res.user.uid, userData);
             this.navCtrl.navigateForward('/login');
           } else {
             console.error('Benutzerdaten nicht verfügbar:', res);
@@ -43,14 +56,13 @@ export class CreateAccountPage {
       console.error('Ungültige E-Mail-Adresse');
     }
   }
-  
 
-  saveUserData(userId: string, email: string) {
-    // Setze standardmäßig die Benutzerrolle auf "user"
+  saveUserData(userId: string, userData: UserData) {
     this.firestore.collection('users').doc(userId).set({
-      role: 'user', // Setze die Benutzerrolle auf "user"
-      email: email, // Füge die E-Mail-Adresse hinzu
-      uid: userId // UID speichern
+      role: 'user',
+      uid: userId,
+      profileImageUrl: '', // Standard-Profilbild
+      ...userData
     })
     .then(() => console.log('Benutzerdaten erfolgreich in Firestore gespeichert'))
     .catch(error => console.error('Fehler beim Speichern der Benutzerdaten:', error));
