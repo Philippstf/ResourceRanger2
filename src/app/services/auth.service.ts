@@ -1,18 +1,37 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { map } from 'rxjs/operators';
 import { getAuth } from 'firebase/auth';
+
 
 @Injectable({
   providedIn: 'root'
 })
 
-// AuthService is used to handle the authentication of users connected with Firebase
-export class AuthService {
 
-  constructor(private afAuth: AngularFireAuth) {}
+export class AuthService {
+  private userRole = new BehaviorSubject<string>('');
+
+  constructor(
+    private afAuth: AngularFireAuth,
+    private afs: AngularFirestore
+  ) {}
 
   login(email: string, password: string) {
     return this.afAuth.signInWithEmailAndPassword(email, password);
+  }
+  
+
+  getCurrentUserId(): Observable<string | null> {
+    return this.afAuth.authState.pipe(map(user => user ? user.uid : null));
+  }
+
+  getRole(uid: string): Observable<string> {
+    return this.afs.collection('users').doc(uid).valueChanges().pipe(
+      map((user: any) => user.role as string) // Cast user.role to string
+    );
   }
 
   forgotPassword(email: string) {
@@ -31,14 +50,12 @@ export class AuthService {
     return this.afAuth.signOut();
   }
 
-  // Method to delete Account 
-  delete() {
-    const auth = getAuth();
-    const user = auth.currentUser;
+  async deleteAccount() {
+    const user = await this.afAuth.currentUser;
     if (user) {
       return user.delete();
     } else {
-      return Promise.reject(new Error('No user is currently signed in.'));
+      throw new Error('No user is currently signed in.');
     }
   }
 

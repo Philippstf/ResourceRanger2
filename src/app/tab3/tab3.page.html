@@ -1,9 +1,18 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Posteingang</ion-title>
+    <ion-title>Materialbestellung</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" size-md="4" size-lg="3" *ngFor="let category of categories; let i = index">
+        <div class="category-container" (click)="selectCategory(category)">
+          <ion-icon [name]="category.icon" class="category-icon"></ion-icon>
+          <h2 class="category-title">{{ category.name }}</h2>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

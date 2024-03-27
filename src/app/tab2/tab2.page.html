@@ -1,20 +1,44 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="dark">
     <ion-title>Zeiterfassung</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-text-center ion-padding">
-  <div class="timer-container">
-    <p>{{ timerDisplay }}</p>
-  </div>
-  <div class="button-container">
-    <ion-button color="{{ isCheckingIn ? 'danger' : 'success' }}" (click)="toggleCheckIn()" class="check-in-button">
-      {{ isCheckingIn ? 'Auschecken' : 'Einchecken' }}
-    </ion-button>
-    <ion-button color="secondary" (click)="showTimes()" class="show-times-button">
-      <ion-icon name="time-outline"></ion-icon>
-    </ion-button>
-    <ion-button (click)="presentManualTimeEntryModal()">Zeit Manuell erfassen</ion-button>
-  </div>
+<ion-content [fullscreen]="true" class="ion-padding" color="dark">
+  <ion-grid>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-md="6" size-lg="4" size-xs="12">
+        <!-- Timer Kachel -->
+        <div class="kachel-container">
+          <ion-icon name="time-outline" class="kachel-icon"></ion-icon>
+          <h2 class="kachel-title">Aktuelle Zeit</h2>
+          <p class="kachel-content">{{ timerDisplay }}</p>
+        </div>
+      </ion-col>
+
+      <ion-col size-md="6" size-lg="4" size-xs="12">
+        <!-- Ein-/Auschecken Kachel -->
+        <div class="kachel-container" (click)="toggleCheckIn()">
+          <ion-icon name="{{ isCheckingIn ? 'exit-outline' : 'enter-outline' }}" class="kachel-icon"></ion-icon>
+          <h2 class="kachel-title">{{ isCheckingIn ? 'Auschecken' : 'Einchecken' }}</h2>
+        </div>
+      </ion-col>
+
+      <ion-col size-md="6" size-lg="4" size-xs="12">
+        <!-- Zeiten Anzeigen Kachel -->
+        <div class="kachel-container" (click)="showTimes()">
+          <ion-icon name="time-outline" class="kachel-icon"></ion-icon>
+          <h2 class="kachel-title">Zeiten Anzeigen</h2>
+        </div>
+      </ion-col>
+
+      <ion-col size-md="6" size-lg="4" size-xs="12">
+        <!-- Manuelle Zeiterfassung Kachel -->
+        <div class="kachel-container" (click)="presentManualTimeEntryModal()">
+          <ion-icon name="calendar-number-outline" class="kachel-icon"></ion-icon>
+          <h2 class="kachel-title">Manuelle Erfassung</h2>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

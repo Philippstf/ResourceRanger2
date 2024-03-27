@@ -1,22 +1,20 @@
 ion-header {
   ion-toolbar {
-    --background: transparent; 
-    justify-content: center; 
+    --justify-content: space-between; /* Verteilt den Platz zwischen den Elementen */
+    --background: #212429 !important;
+    
     ion-title {
-      text-align: center; 
-      color: white; 
-      font-family: 'Arapey', serif; 
-      font-size: 2em; 
-    }
+      text-align: center;
+      color: white; // Textfarbe auf Weiß setzen
+      font-family: 'Arapey', serif;
+      font-size: 1.5em;
+    } 
   }
 }
 
+
 ion-content {
-  --background: black;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100%;
+  --background: #212429
 }
 
 ion-content p {

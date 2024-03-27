@@ -1,0 +1,26 @@
+ion-header {
+    ion-toolbar {
+      --justify-content: space-between; /* Verteilt den Platz zwischen den Elementen */
+      --background: #212429 !important;
+      
+      ion-title {
+        text-align: center;
+        color: white; // Textfarbe auf Weiß setzen
+        font-family: 'Arapey', serif;
+        font-size: 1.5em;
+      } 
+    }
+  }
+  
+  
+  ion-content {
+    --background: #212429
+  }
+
+  ion-list {
+    --background: black
+  }
+
+  ion-item {
+    --color: black
+  }

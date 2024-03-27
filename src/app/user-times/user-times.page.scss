@@ -1,0 +1,48 @@
+ion-header {
+    ion-toolbar {
+      --justify-content: space-between; /* Verteilt den Platz zwischen den Elementen */
+      --background: #212429 !important;
+      
+      ion-title {
+        text-align: center;
+        color: white; // Textfarbe auf Weiß setzen
+        font-family: 'Arapey', serif;
+        font-size: 1.5em;
+      }
+  
+      ion-buttons {
+        ion-button {
+          --color: white; // Farbe der Buttons auf Weiß setzen
+        }
+      }
+    }
+  }
+  
+  ion-content {
+    --background: black;
+  }
+  
+  .time-entries-table {
+    width: 100%;
+    color: white;
+    border-collapse: collapse;
+  
+    th, td {
+      border: 1px solid white;
+      padding: 10px;
+      text-align: left;
+    }
+  
+    th {
+      background-color: #444; // Dunkelgrauer Hintergrund für die Kopfzeile
+    }
+  
+    tr:nth-child(even) {
+      background-color: #555; // Zebra-Streifen für Zeilen
+    }
+  
+    tr:nth-child(odd) {
+      background-color: #666; // Zebra-Streifen für Zeilen
+    }
+  }
+  

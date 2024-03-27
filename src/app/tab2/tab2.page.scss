@@ -1,46 +1,39 @@
-ion-header {
-  ion-toolbar {
-    --background: transparent; 
-    justify-content: center; 
-    ion-title {
-      text-align: center; 
-      color: white; 
-      font-family: 'Arapey', serif; 
-      font-size: 1.5em; 
-    }
-  }
-}
-
 ion-content {
-  --background: black;
+  --background: #000;
 }
 
-.timer-container {
+.kachel-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  font-size: 2em;
-  color: white;
-  /* Hier deine Animationen hinzufügen */
-}
-
-.check-in-button {
-  position: absolute;
-  top: 85%; /* Abstand von der Oberseite, abhängig von der Höhe deiner App-Bar */
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.button-container {
-  display: flex;
   justify-content: center;
-  align-items: center;
-  gap: 20px; /* Abstand zwischen den Buttons */
+  padding: 20px;
+  margin: 10px;
+  background-color: #1a1a1a;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.show-times-button {
-  --border-radius: 50%; /* Macht den Button rund */
+.kachel-icon {
+  font-size: 48px;
+  color: #007aff;
 }
 
+.kachel-title {
+  color: #fff;
+  margin-top: 10px;
+}
 
+.kachel-content {
+  color: #fff;
+  font-size: 20px;
+}
 
+ion-toolbar {
+  --background: #000;
+}
+
+ion-title {
+  color: #fff;
+  text-align: center;
+}

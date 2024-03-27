@@ -3,6 +3,12 @@ import { Router } from '@angular/router';
 import { ManualTimeEntryComponent } from '../manual-time-entry/manual-time-entry.component';
 import { ModalController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
+import { AuthService } from '../services/auth.service'
+import { AngularFirestore, DocumentReference } from '@angular/fire/compat/firestore';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
+
+
 
 interface ManualEntryData {
   date: string;
@@ -26,36 +32,66 @@ export class Tab2Page implements OnInit {
   startTime: Date | null = null; // Deklariere startTime
   endTime: Date | null = null; // Deklariere endTime
   workSessions: any[] = [];
-
+  userId: string | null = null;
 
 
   constructor(
+     private afs: AngularFirestore,
     private router: Router,
     private modalController: ModalController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private authService: AuthService
     
     ) {}
 
-  ngOnInit() {}
+    ngOnInit() {
+      this.authService.getCurrentUserId().subscribe(uid => {
+        this.userId = uid;
+      });
+    }
 
-  toggleCheckIn() {
-  if (this.isCheckingIn) {
-    // Auschecken
-    this.endTime = new Date();
-    clearInterval(this.interval);
-    this.saveTime();
-    this.timer = 0;
-    this.updateTimerDisplay();
-  } else {
-    // Einchecken
-    this.startTime = new Date();
-    this.interval = setInterval(() => {
-      this.timer++;
-      this.updateTimerDisplay();
-    }, 1000);
-  }
-  this.isCheckingIn = !this.isCheckingIn;
-}
+    async toggleCheckIn() {
+      if (this.isCheckingIn) {
+        // Auschecken
+        const breakTime = await this.promptForBreakTime();
+        this.endTime = new Date();
+        clearInterval(this.interval);
+        this.saveTime(breakTime); // breakTime als Argument übergeben
+        this.timer = 0;
+        this.updateTimerDisplay();
+      } else {
+        // Einchecken
+        this.startTime = new Date();
+        this.interval = setInterval(() => {
+          this.timer++;
+          this.updateTimerDisplay();
+        }, 1000);
+      }
+      this.isCheckingIn = !this.isCheckingIn;
+    }
+
+    async promptForBreakTime(): Promise<number> {
+      return new Promise(async resolve => {
+        const alert = await this.alertController.create({
+          header: 'Pausenzeit',
+          inputs: [
+            {
+              name: 'breakTime',
+              type: 'number',
+              placeholder: 'Pausenzeit in Minuten'
+            }
+          ],
+          buttons: [
+            {
+              text: 'Bestätigen',
+              handler: (data) => resolve(data.breakTime)
+            }
+          ]
+        });
+    
+        await alert.present();
+      });
+    }
 
   updateTimerDisplay() {
     const hours = Math.floor(this.timer / 3600);
@@ -69,27 +105,31 @@ export class Tab2Page implements OnInit {
     return value.toString().padStart(2, '0');
   }
 
-  saveTime() {
-    const currentDate = new Date().toLocaleDateString('de-DE');
-    const startTime = this.startTime?.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
-    const endTime = this.endTime?.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
-    const workTime = this.timerDisplay;
+  saveTime(breakTime: number) {
+    if (!this.userId) {
+      console.error('No UID found for current user');
+      return;
+    }
+    
+    if (!this.startTime || !this.endTime) {
+      console.error('Start or end time is null');
+      return;
+    }
   
     const session = {
-      Datum: currentDate,
-      Startzeit: startTime,
-      Endzeit: endTime,
-      Arbeitszeit: workTime
+      userId: this.userId,
+      date: firebase.firestore.Timestamp.fromDate(this.startTime!),
+      startTime: firebase.firestore.Timestamp.fromDate(this.startTime!),
+      endTime: firebase.firestore.Timestamp.fromDate(this.endTime!),
+      breakTime: breakTime,
+      workingTime: this.timerDisplay
     };
   
-    // Vorhandene Arbeitssitzungen aus dem localStorage laden
-    let workSessions = JSON.parse(localStorage.getItem('timetracker') || '[]');
-    
-    // Neue Arbeitssitzung hinzufügen
-    workSessions.push(session);
-  
-    // Aktualisierte Arbeitssitzungen im localStorage speichern
-    localStorage.setItem('timetracker', JSON.stringify(workSessions));
+    this.afs.collection('work_sessions').add(session).then(docRef => {
+      console.log('Session saved in Firestore with ID: ', docRef.id);
+    }).catch(error => {
+      console.error('Error saving session: ', error);
+    });
   }
 
   showTimes() {
@@ -108,20 +148,49 @@ export class Tab2Page implements OnInit {
     }
   }
   
-  addManualTimeEntry(entryData: ManualEntryData) {
-    // Berechne Arbeitszeit abzüglich der Pause
-    let workTime = this.calculateWorkTime(entryData.start, entryData.end, entryData.pause);
-    let newSession = {
-      Datum: entryData.date,
-      Startzeit: entryData.start,
-      Endzeit: entryData.end,
-      Arbeitszeit: workTime,
-      Pause: entryData.pause
-    };
-    // Hinzufügen zur Liste und Speichern im localStorage
-    this.workSessions.push(newSession);
-    localStorage.setItem('timetracker', JSON.stringify(this.workSessions));
+   convertGermanDateToISO(germanDate : string) : string {
+    const parts = germanDate.split('.');
+    return `${parts[2]}-${parts[1]}-${parts[0]}`;
   }
+  
+  addManualTimeEntry(entryData: ManualEntryData) {
+    // Überprüfe, ob die userId gesetzt ist
+    if (!this.userId) {
+      console.error('No UID found for current user');
+      return;
+    }
+    
+    const isoDate = this.convertGermanDateToISO(entryData.date);
+
+    let workTime = this.calculateWorkTime(entryData.start, entryData.end, entryData.pause);
+    let startDate = new Date(isoDate + 'T' + entryData.start + ':00');
+    let endDate = new Date(isoDate + 'T' + entryData.end + ':00');
+    
+    // Überprüfe, ob die Datum-Objekte gültig sind
+    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+      console.error('One of the date objects is invalid.');
+      return;
+    }
+    
+    // Erstelle ein neues Session-Objekt für Firestore
+    let newSession = {
+      userId: this.userId,
+      date: firebase.firestore.Timestamp.fromDate(startDate),
+      startTime: firebase.firestore.Timestamp.fromDate(startDate),
+      endTime: firebase.firestore.Timestamp.fromDate(endDate),
+      breakTime: entryData.pause,
+      workingTime: workTime
+    };
+    
+    // Speichere die neue Session in Firestore
+    this.afs.collection('work_sessions').add(newSession).then(docRef => {
+      console.log('Manual session saved in Firestore with ID: ', docRef.id);
+    }).catch(error => {
+      console.error('Error saving manual session: ', error);
+    });
+  }
+  
+  
 
   calculateWorkTime(start: string, end: string, pause: number): string {
     // Annahme: start und end sind im Format HH:mm

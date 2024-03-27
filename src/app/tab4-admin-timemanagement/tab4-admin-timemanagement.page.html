@@ -1,0 +1,17 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Benutzerverwaltung
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let user of users$ | async">
+      <ion-button fill="clear" expand="full" (click)="navigateToUserTimes(user.uid)">
+        {{ user | json }} <!-- Hier wird das gesamte Benutzerobjekt als JSON ausgegeben -->
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

@@ -21,7 +21,7 @@
       <th>Pause</th>
       <th>Arbeitszeit</th>
     </tr>
-    <tr *ngFor="let session of workSessions; let i = index" (contextmenu)="openContextMenu(session)" (click)="openContextMenuOnClick(session)" [attr.data-session-id]="session.docId">
+    <tr *ngFor="let session of workSessions$ | async; let i = index" (contextmenu)="openContextMenu(session)" (click)="openContextMenuOnClick(session)" [attr.data-session-id]="session.docId">
       <td>{{ session['date'] }}</td>
       <td>{{ session['startTime'] }}</td>
       <td>{{ session['endTime'] }}</td>

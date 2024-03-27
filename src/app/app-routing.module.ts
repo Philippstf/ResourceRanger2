@@ -32,9 +32,10 @@ const routes: Routes = [
     loadChildren: () => import('./time-tracker/time-tracker.module').then( m => m.TimeTrackerPageModule)
   },
   {
-    path: 'time-tracker',
-    loadChildren: () => import('./time-tracker/time-tracker.module').then( m => m.TimeTrackerPageModule)
+    path: 'user-times/:userId',
+    loadChildren: () => import('./user-times/user-times.module').then( m => m.UserTimesPageModule)
   },
+
 
 
 

@@ -25,6 +25,10 @@ const routes: Routes = [
         canActivate: [AuthGuard]
       },
       {
+        path: 'tab4-admin-timemanagement',
+        loadChildren: () => import('../tab4-admin-timemanagement/tab4-admin-timemanagement.module').then( m => m.Tab4AdminTimemanagementPageModule)
+      },
+      {
         path: '',
         redirectTo: 'tab1',
         pathMatch: 'full'

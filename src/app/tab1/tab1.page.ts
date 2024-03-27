@@ -47,7 +47,7 @@ export class Tab1Page implements OnInit {
 
   // Method to confirm and delete the account
   deleteAccountConfirmed() {
-    this.authService.delete().then(() => {
+    this.authService.deleteAccount().then(() => {
       this.navCtrl.navigateForward('/login'); 
     }).catch((error: FirebaseError) => {
       console.error('Deletion failed', error.code, error.message);
