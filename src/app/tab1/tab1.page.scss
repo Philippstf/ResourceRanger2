@@ -2,86 +2,75 @@ ion-header {
   ion-toolbar {
     --justify-content: space-between; /* Verteilt den Platz zwischen den Elementen */
     --background: #212429 !important;
-    
+
     ion-title {
       text-align: center;
       color: white; // Textfarbe auf Weiß setzen
       font-family: 'Arapey', serif;
       font-size: 1.5em;
-    } 
+    }
   }
 }
-
 
 ion-content {
-  --background: #212429
+  --background: #212429; /* Hintergrundfarbe Ihres Mockups */
 }
 
-ion-content p {
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  margin-top: 40px;
+  width: 100%; // Stellen Sie sicher, dass der Container die volle Breite hat
+}
+
+.user-avatar {
+  width: 150px; // Größe des Profilbildes angepasst
+  height: 150px;
+  margin: 0 auto;
+  border: 4px solid white;
+  border-radius: 50%;
+  overflow: hidden;
+  z-index: 2; // Stellen Sie sicher, dass das Profilbild über den Icons liegt
+}
+
+.action-icons {
+  position: absolute;
+  top: 120%; // Positioniere die Icons unter dem Profilbild vertikal
+  width: 100%; // Breite des Containers anpassen
+  display: flex;
+  justify-content: space-evenly; // Gleiche Abstände zwischen den Icons
+  padding: 0 15%; // Horizontale Abstände von den Seitenrändern verkleinern
+  z-index: 1; // Stellen Sie sicher, dass die Icons unter dem Profilbild liegen
+}
+
+ion-icon {
+  font-size: 20px; // Größe der Icons verkleinern
   color: white;
-  text-align: center;
-  font-family: 'Arapey', serif;
-  font-size: 1.2em; 
-}
-
-.account-form {
-  max-width: 400px;
-  margin: auto;
-  font-family: 'Arapey', serif;
-
-  ion-button {
-    --border-radius: 20px; 
-    --background: #ff6861; 
-    --color: white; 
-    --font-family: 'Arial', sans-serif; 
-    --height: 60px; 
-    --font-size: 1.2em; 
-    width: 80%; 
-    margin: 20px auto; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  ion-button.delete-button {
-    --background: #808080; 
-  }
-
-  ion-icon {
-    font-size: 1.5em; 
-    margin-right: 8px; 
-  }
-}
-
-/* tab1.page.scss */
-
-/* tab1.page.scss */
-
-.profile-container {
-  width: 150px; /* Dies sollte die Größe des Rahmens sein */
-  height: 150px; /* Dies sollte die Höhe des Rahmens sein */
-  border-radius: 50%; /* Dies macht den Rahmen rund */
-  overflow: hidden; /* Verhindert, dass der Inhalt außerhalb des Rahmens angezeigt wird */
-  position: relative; /* Ermöglicht die genaue Positionierung des Bildes innerhalb */
-  border: 2px solid white; /* Dünner weißer Rahmen */
-  box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.5); /* Heller Schatten */
+  background-color: #3871c1;
+  border: 2px solid white;
+  border-radius: 50%;
+  padding: 10px; // Padding der Icons anpassen
+  margin: 0 5px; // Abstand zwischen den Icons verkleinern
+  width: 40px; // Größe der Icons verkleinern
+  height: 40px; // Größe der Icons verkleinern
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20px auto; /* Zentriert den Rahmen horizontal */
+  transform: translateY(-50%); // Positioniere die Icons über dem unteren Rand des Profilbildes
 }
 
-.profile-picture {
-  width: 100%; /* Füllt den umschließenden Container aus */
-  height: auto; /* Behält die Aspekt-Ratio des Bildes bei */
-  object-fit: cover; /* Verhindert Verzerrungen des Bildes */
-  border: none; /* Kein Rahmen um das Bild selbst */
+.settings-list {
+  margin-top: 150px; // Anpassen basierend auf der endgültigen Positionierung der Icons
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-
-/* Optional: Stil für den Header, um sicherzustellen, dass der Inhalt darunter beginnt */
-ion-header {
-  position: relative; /* Setzt die Positionierung des Headers relativ */
-  z-index: 1000; /* Stellt sicher, dass der Header über anderen Inhalten liegt */
+.settings-list ion-item {
+  background: #32353b;
+  color: white;
+  margin: 8px 0;
+  border-radius: 8px; /* Rounded corners for the list items */
 }
-

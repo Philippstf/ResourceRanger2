@@ -82,10 +82,6 @@ export class Tab1Page implements OnInit {
     }
   }
 
-  editProfile() {
-    this.navCtrl.navigateForward('/edit-profile');
-  }
-
   async deleteAccount() {
     const alert = await this.alertController.create({
       header: 'Account sicher löschen?',
@@ -118,5 +114,26 @@ export class Tab1Page implements OnInit {
     }).catch((error: FirebaseError) => {
       console.error('Logout failed', error.code, error.message);
     });
+  }
+
+  // LOGIK IMPLEMENTIEREN
+  editProfile() {
+    this.navCtrl.navigateForward('/edit-profile');
+  }
+
+  openSettings() {
+    // Logik zum Öffnen der Einstellungen
+  }
+
+  sendMessageToDevelopers() {
+    // Logik zum Senden einer Nachricht an die Entwickler
+  }
+
+  openHelp() {
+    // Logik zum Öffnen der Hilfeseite
+  }
+
+  reportProblem() {
+    // Logik zum Melden eines Problems
   }
 }
